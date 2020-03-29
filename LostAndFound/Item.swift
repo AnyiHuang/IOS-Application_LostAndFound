@@ -23,19 +23,15 @@ class Item: NSObject{
     
     convenience init(random: Bool = false) {
         if random {
-            let adjectives = ["Fluffy", "Rusty", "Shiny"]
-            let nouns = ["Bear", "Spork", "Mac"]
+            let nameArray = ["key", "Basketball", "backpack"]
+            let locationArray = ["Gym", "Voety", "Water Man"]
 
-            var idx = arc4random_uniform(UInt32(adjectives.count))
-            let randomAdjective = adjectives[Int(idx)]
+            var idx = arc4random_uniform(UInt32(nameArray.count))
+            let randomName = nameArray[Int(idx)]
 
-            idx = arc4random_uniform(UInt32(nouns.count))
-            let randomNoun = nouns[Int(idx)]
-
-            let randomName = "\(randomAdjective) \(randomNoun)"
-            let randomValue = Int(arc4random_uniform(100))
-            let randomLocation = "\(randomAdjective) \(randomNoun)"
-
+            idx = arc4random_uniform(UInt32(locationArray.count))
+            let randomLocation = locationArray[Int(idx)]
+            
             self.init(name: randomName,
                 location: randomLocation)
         } else {
