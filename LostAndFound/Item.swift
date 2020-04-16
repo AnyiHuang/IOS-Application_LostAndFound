@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Item: NSObject{
+class Item: NSObject, NSCoding{
     var name: String
     var location: String
     let dateCreated: Date
@@ -32,11 +32,22 @@ class Item: NSObject{
             idx = arc4random_uniform(UInt32(locationArray.count))
             let randomLocation = locationArray[Int(idx)]
             
-            self.init(name: randomName,
-                location: randomLocation)
+            self.init(name: "click and set your item's name",
+                location: "location")
         } else {
             self.init(name: "", location: "")
         }
+    }
+    func encode(with aCoder:NSCoder){
+        aCoder.encode(name,forKey: "name")
+        aCoder.encode(location,forKey: "location")
+        aCoder.encode(dateCreated,forKey: "dateCreated")
+    }
+    required init(coder aDeCoder: NSCoder) {
+        name = aDeCoder.decodeObject(forKey: "name") as! String
+        dateCreated = aDeCoder.decodeObject(forKey: "dateCreated") as! Date
+        location = aDeCoder.decodeObject(forKey: "location") as! String
+        super.init()
     }
 }
 
