@@ -8,9 +8,15 @@
 
 import UIKit
 class DetailViewController: UIViewController,UITextFieldDelegate{
+    @IBOutlet var nameField: UITextField!
+    @IBOutlet var locationField: UITextField!
+    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var imageView: UIImageView!
+    var itemStore:ItemStore!
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
+    
     
     
     var item:Item!{
@@ -18,17 +24,7 @@ class DetailViewController: UIViewController,UITextFieldDelegate{
             navigationItem.title = item.name
         }
     }
-    @IBOutlet var nameField: UITextField!
-    @IBOutlet var locationField: UITextField!
-    @IBOutlet var dateLabel: UILabel!
-    
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter
-    }()
-    
+
     override  func viewWillAppear(_ animated:Bool){
         super.viewWillAppear(animated)
         
@@ -37,6 +33,21 @@ class DetailViewController: UIViewController,UITextFieldDelegate{
         dateLabel.text = dateFormatter.string(from: item.dateCreated)
         
     }
+    
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    @IBAction func deleteDetail(_ sender: UIBarButtonItem) {
+        //self.viewWillDisappear(true)
+        print("pass")
+        navigationItem.title = "None"
+        nameField.text = ""
+        locationField.text = ""
+    }
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -47,8 +58,11 @@ class DetailViewController: UIViewController,UITextFieldDelegate{
         item.name = nameField.text ?? ""
         item.location = locationField.text ?? ""
     }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField, checkDelete:String) -> Bool {
         textField.resignFirstResponder()
+        if checkDelete == "true"{
+            
+        }
         return true
     }
 }

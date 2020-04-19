@@ -49,24 +49,7 @@ class ItemsViewController: UITableViewController{
             tableView.insertRows(at: [indexPath], with: .automatic)
         }
     }
-//    @IBAction func toggleEditingMode(_ sender: UIButton){
-//        // If you are currently in editing mode
-//        if isEditing{
-//            //Change text of button on inform user of state
-//            sender.setTitle("Edit", for: .normal)
-//            
-//            //Turn off editing mode
-//            setEditing(false,animated:true)
-//        }else{
-//            //change text of button to inform user of state
-//            sender.setTitle("Done", for: .normal)
-//            
-//            //Enter editing mode
-//            setEditing(true, animated: true)
-//        }
-//        
-//    }
-//    
+    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         return itemStore.allItems.count
@@ -78,31 +61,46 @@ class ItemsViewController: UITableViewController{
         //will appear in on the tableView
         let item = itemStore.allItems[indexPath.row]
         
+        if item.name == ""{
+            print("test")
+            self.itemStore.removeItem(item)
+            print("yes")
+            tableView.reloadData()
+            //self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
         //Get a new or recycled cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell",for: indexPath) as! ItemCell
-//        let item = itemStore.allItems[indexPath.row]
-//
+
         cell.nameLabel.text = item.name
         cell.locationLabel.text = item.location
         return cell
         }
     override func tableView(_ View:UITableView,commit editingStyle: UITableViewCell.EditingStyle,forRowAt indexPath: IndexPath){
+//        print("run")
+//        let item = itemStore.allItems[indexPath.row]
+//        if item.name == ""{
+//            print("test")
+//            self.itemStore.removeItem(item)
+//            print("yes")
+//            tableView.reloadData()
+//        }
+        
         //If the table view is asking to commit a delete command...
         if editingStyle == .delete{
             let item = itemStore.allItems[indexPath.row]
-            
+
             let title = "Delete \(item.name)?"
-            let message = "Are you sure you want to remove this item?"
-            
-            let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            ac.addAction(cancelAction)
-            
-            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {(action)->Void in
-                //Remove the item from the store
-                self.itemStore.removeItem(item)
-                //also remove that row from the table view with an animation
+                    let message = "Are you sure you want to remove this item?"
+                    
+                    let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+                    
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                    ac.addAction(cancelAction)
+                    
+                    let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {(action)->Void in
+                        //Remove the item from the store
+                        self.itemStore.removeItem(item)
+                        //also remove that row from the table view with an animation
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             ac.addAction(deleteAction)
@@ -117,7 +115,6 @@ class ItemsViewController: UITableViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         tableView.reloadData()
     }
 }
